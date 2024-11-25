@@ -15,6 +15,7 @@ export function Main() {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadType, setUploadType] = useState("");
+  const [Error, setError] = useState("");
 
   const handleImageUpload = () => {
     setIsImageModalOpen(true)
@@ -28,9 +29,11 @@ export function Main() {
   const handleAddToProducts = async () => {
 
     try {
+      setError("");
       setUploading(true);
       console.log({
-        imageLink, file, uploadType});
+        imageLink, file, uploadType
+      });
       const formData = new FormData();
       if (uploadType === "link") {
         formData.append('link', imageLink);
@@ -39,13 +42,13 @@ export function Main() {
       }
       formData.append('type', uploadType);
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/run/model`, 
-          formData
-      , {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/run/model`,
+        formData
+        , {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
 
       const parsedData = response.data;
       if (response.data.success) {
@@ -54,9 +57,12 @@ export function Main() {
 
     } catch (error) {
       console.error(error);
+      setError(error.messagec || "Something went wrong");
     } finally {
       setFile(null);
       setImageLink('');
+      setUploading(false);
+      setError("");
       setUploadType("");
     }
   };
@@ -100,25 +106,35 @@ export function Main() {
             </Button>
           </div>
         </div>
-      </div>
+      </div >
       <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
         <DialogContent className=" bg-white  sm:max-w-[425px]">
           <DialogTitle></DialogTitle>
-          <div className="flex flex-col items-center justify-center gap-4 py-8">
-            <UploadIcon className="size-12 text-primary" />
-            <p className="text-lg font-medium">Upload an Image</p>
-            <Input
-              type="file"
-              placeholder="Choose file"
-              onChange={(e) => setFile(e.target.files[0])} />
-          </div>
+          {uploading ?
+            <div className="w-full h-full">
+              <div className="w-full h-full flex items-center justify-center">
+                <p className="text-muted-foreground">Uploading...</p>
+              </div>
+            </div>
+            :
+
+            <div className="flex flex-col items-center justify-center gap-4 py-8">
+              <UploadIcon className="size-12 text-primary" />
+              <p className="text-lg font-medium">Upload an Image</p>
+              <Input
+                type="file"
+                placeholder="Choose file"
+                onChange={(e) => setFile(e.target.files[0])} />
+              <p className="text-red-500 text-xs">{Error}</p>
+            </div>
+          }
           <DialogFooter>
-            <Button onClick={handleAddToProducts}>
+            <Button disabled={uploading} onClick={handleAddToProducts}>
               <PlusIcon className="mr-2 h-4 w-4" />
               Add to Products
             </Button>
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button disabled={uploading} type="button" variant="outline">
                 Cancel
               </Button>
             </DialogClose>
@@ -128,22 +144,32 @@ export function Main() {
       <Dialog open={isLinkModalOpen} onOpenChange={setIsLinkModalOpen}>
         <DialogContent className="bg-white sm:max-w-[425px]">
           <DialogTitle></DialogTitle>
-          <div className="flex flex-col items-center justify-center gap-4 py-8">
-            <LinkIcon className="size-12 text-primary" />
-            <p className="text-lg font-medium">Enter a Product Link</p>
-            <Input
-              type="text"
-              placeholder="Enter product link"
-              value={imageLink}
-              onChange={(e) => setImageLink(e.target.value)} />
-          </div>
+          {uploading ?
+            <div className="w-full h-full">
+              <div className="w-full h-full flex items-center justify-center">
+                <p className="text-muted-foreground">Uploading...</p>
+              </div>
+            </div>
+            :
+
+            <div className="flex flex-col items-center justify-center gap-4 py-8">
+              <LinkIcon className="size-12 text-primary" />
+              <p className="text-lg font-medium">Enter a Product Link</p>
+              <Input
+                type="text"
+                placeholder="Enter product link"
+                value={imageLink}
+                onChange={(e) => setImageLink(e.target.value)} />
+              <p className="text-red-500 text-xs">{Error}</p>
+            </div>
+          }
           <DialogFooter>
-            <Button onClick={handleAddToProducts}>
+            <Button disabled={uploading} onClick={handleAddToProducts}>
               <PlusIcon className="mr-2 h-4 w-4" />
               Add to Products
             </Button>
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button disabled={uploading} type="button" variant="outline">
                 Cancel
               </Button>
             </DialogClose>
@@ -151,7 +177,7 @@ export function Main() {
         </DialogContent>
       </Dialog>
       <ProductList />
-    </div>)
+    </div >)
   );
 }
 
