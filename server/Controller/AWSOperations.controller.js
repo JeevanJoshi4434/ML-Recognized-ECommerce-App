@@ -3,7 +3,7 @@ import { S3Service, RekognitionService, TranscriptionService } from '../config/A
 import fs from 'fs';
 import path from 'path';
 import { ApifyClient } from 'apify-client';
-import { APIFY_KEY } from '../KEYS.js';
+import { APIFY_KEY, S3_BUCKET } from '../KEYS.js';
 import Gemini from '../GenAI/Gemini.js';
 import { ModelHistory, UserHistory } from '../config/GeminiData.js';
 
@@ -26,7 +26,7 @@ class AwsOperationsController extends Gemini {
   async uploadAndProcessFile(req, res) {
     const { type, link } = req.body;
     let fileBuffer, originalname, mimetype, mediaUrl;
-    const bucketName = process.env.S3_BUCKET;
+    const bucketName = S3_BUCKET;
     console.log({ type, link, fiel:req.file });
     try {
       // Handle file or URL upload
