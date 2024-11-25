@@ -2,6 +2,7 @@
 
 # dependencies
 product-listing/node_modules
+product-listing/package-lock.json
 server/node_modules
 server/KEYS.js
 product-listing/.pnp
