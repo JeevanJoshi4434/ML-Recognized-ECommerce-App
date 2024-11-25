@@ -1,6 +1,6 @@
 # Application
-A platform to scan Image/Link and scrab details and make a product automatically.
-
+A platform to scan Image/Link and scrab details and List a product automatically. It categorizes products in different sections also you can explore products by clicking in brand name or category.
+The analyzation results are dependent on GenAI.
 ## Installation
 ```bash
 git clone https://github.com/JeevanJoshi4434/ML-Recognized-ECommerce-App.git
