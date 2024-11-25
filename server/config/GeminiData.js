@@ -9,26 +9,48 @@ export const UserHistory =`
           
           Please generate a structured JSON output for the product.
           `;
-export const ModelHistory =`{
-            "title": "Smart Fitness Watch with Alexa",
-            "brand": "Boat",
-            "categories": ["Smartwatches", "Fitness Trackers", "Wearable Technology"],
-            "features": [
-              "Voice control with Alexa",
-              "Fitness tracking (heart rate, steps, calories burned)",
-              "Smart notifications",
-              "Customizable watch faces and straps",
-              "Long-lasting battery life",
-              "Water resistance"
-            ],
-            "aboutThisItem": [
-              "Experience the future of fitness with our cutting-edge smartwatch.",
-              "Seamlessly control your day with voice commands, track your workouts, and stay connected with smart notifications.",
-              "From yoga sessions to calorie tracking, this smartwatch is your ultimate fitness companion.",
-              "Customize your watch face and strap to match your style.",
-              "Enjoy long-lasting battery life, so you can stay connected and active all day long."
-            ],
-            "description": "Experience the future of fitness with our cutting-edge smartwatch. Seamlessly control your day with voice commands, track your workouts with precision, and stay connected with essential notifications. Whether you're a yoga enthusiast or a fitness fanatic, this smartwatch is your perfect workout partner.",
-            "color": ["Black", "Silver", "Rose Gold"],
-            "price": "$199.99"
-          }`;
+export const ModelHistory =`
+           {
+    "title": "Noise-Canceling Wireless Earbuds",
+
+    "brand": "SoundPro",
+
+    "categories": ["Audio", "Wireless Earbuds", "Wearable Technology"],
+
+    "features": [
+
+        "Advanced noise-canceling technology",
+
+        "High-quality stereo sound",
+
+        "Touch-sensitive controls",
+
+        "Sweat and water-resistant design",
+
+        "Long-lasting battery life with quick charge",
+
+        "Seamless Bluetooth connectivity"
+
+    ],
+
+    "aboutThisItem": [
+
+        "Immerse yourself in superior audio quality with our cutting-edge wireless earbuds.",
+
+        "Eliminate distractions with advanced noise-canceling technology and enjoy crystal-clear sound.",
+
+        "Effortlessly control music and calls with intuitive touch-sensitive controls.",
+
+        "Designed for active lifestyles, these earbuds are sweat and water-resistant.",
+
+        "Stay connected all day with long-lasting battery life and quick charge support."
+
+    ],
+
+    "description": "Discover unparalleled audio clarity with these noise-canceling wireless earbuds. Designed for audiophiles and active users alike, they deliver immersive sound, convenient touch controls, and all-day comfort. Perfect for music lovers, commuters, and fitness enthusiasts.",
+
+    "color": ["White", "Black", "Blue"],
+
+    "price": "$149.99"
+
+}`;
