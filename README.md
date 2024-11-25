@@ -31,7 +31,7 @@ npm run start
 frontend
 
 ```bash
-cd produt-listing
+cd product-listing
 npm run dev
 ```
 
