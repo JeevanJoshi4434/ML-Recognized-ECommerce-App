@@ -20,10 +20,12 @@ export function Main() {
   const handleImageUpload = () => {
     setIsImageModalOpen(true)
     setUploadType("file");
+    setError("");
   }
   const handleLinkInput = () => {
     setIsLinkModalOpen(true);
     setUploadType("link");
+    setError("");
   }
 
   const handleAddToProducts = async () => {
@@ -36,6 +38,11 @@ export function Main() {
       });
       const formData = new FormData();
       if (uploadType === "link") {
+        const regex = /^https?:\/\/(www\.)?instagram\.com\/.+$/;
+        if (!regex.test(imageLink)) {
+          setError("Please enter a valid Instagram link.");
+          return;
+        }
         formData.append('link', imageLink);
       } else {
         formData.append('file', file);
@@ -124,12 +131,33 @@ export function Main() {
               <Input
                 type="file"
                 placeholder="Choose file"
-                onChange={(e) => setFile(e.target.files[0])} />
+                accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+
+                if (file) {
+                  setError("");
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                      if ((img.width <= 1080 && img.height <= 1920) || (img.width <= 1920 && img.height <= 1080)) {
+                        setFile(file);
+                      } else {
+                        setError("Image dimensions must be 1080x1920 or smaller.");
+                      }
+                    };
+                    img.src = event.target.result;
+                  };
+
+                  reader.readAsDataURL(file);
+                }
+              }} />
               <p className="text-red-500 text-xs">{Error}</p>
             </div>
           }
           <DialogFooter>
-            <Button disabled={uploading} onClick={handleAddToProducts}>
+            <Button disabled={uploading || Error.length > 0} onClick={handleAddToProducts}>
               <PlusIcon className="mr-2 h-4 w-4" />
               Add to Products
             </Button>
@@ -164,7 +192,7 @@ export function Main() {
             </div>
           }
           <DialogFooter>
-            <Button disabled={uploading} onClick={handleAddToProducts}>
+            <Button disabled={uploading || Error.length > 0} onClick={handleAddToProducts}>
               <PlusIcon className="mr-2 h-4 w-4" />
               Add to Products
             </Button>

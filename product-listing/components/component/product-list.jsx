@@ -18,8 +18,10 @@ export function ProductList() {
     if (parsedData && parsedData.length > 0) {
       let productList = [];
       for (let i = 0; i < parsedData.length; i++) {
-        const product = JSON.parse(parsedData[i].data.geminiInsights);
-        productList.push(product);
+        if (parsedData[i] && parsedData[i].data && parsedData[i].data.geminiInsights) {
+          const product = JSON.parse(parsedData[i].data.geminiInsights);
+          productList.push(product);
+        }
       }
       setProducts(productList);
     }
@@ -119,17 +121,17 @@ function ProductCard({ product }) {
   return (
     <div className="bg-background rounded-md shadow-md overflow-hidden">
       <div className="p-4">
-        <h3 className="text-lg font-bold mb-2">{product.title}</h3>
-        <Link href={`/company/${product.brand}`} className="text-muted-foreground mb-3">{product.brand}</Link>
+        <h3 className="text-lg font-bold mb-2">{product?.title}</h3>
+        <Link href={`/company/${product?.brand}`} className="text-muted-foreground mb-3">{product?.brand}</Link>
         {
           product.price ?
-            <p className="text-muted-foreground mb-2">Price: {(parseFloat(product.price.slice(1, -1)) * 84.24).toFixed(2)} (Estimated)</p>
+            <p className="text-muted-foreground mb-2">Price: {product?.price} (Estimated)</p>
             :
             <p className="text-muted-foreground mb-2">Price: Not Available</p>
         }
-        <p className="text-sm line-clamp-3">{product.description}</p>
+        <p className="text-sm line-clamp-3">{product?.description}</p>
         <div className="my-2 flex w-full justify-end">
-        <Button>Buy Now</Button>
+          <Button onClick={()=>{window.location.href = `/product?${btoa(`id=${product?.id}`)}`}}>Buy Now</Button>
         </div>
       </div>
     </div>
