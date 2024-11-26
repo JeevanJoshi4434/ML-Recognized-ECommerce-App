@@ -11,6 +11,14 @@ export function ProductList() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState({});
 
+  function isValidJSON(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
   // Fetch products from localStorage and set products
   useEffect(() => {
     const data = localStorage.getItem("data");
@@ -18,7 +26,7 @@ export function ProductList() {
     if (parsedData && parsedData.length > 0) {
       let productList = [];
       for (let i = 0; i < parsedData.length; i++) {
-        if (parsedData[i] && parsedData[i].data && parsedData[i].data.geminiInsights) {
+        if (parsedData[i] && parsedData[i].data && parsedData[i].data.geminiInsights && isValidJSON(parsedData[i].data.geminiInsights) ) {
           const product = JSON.parse(parsedData[i].data.geminiInsights);
           productList.push(product);
         }

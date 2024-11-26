@@ -6,14 +6,25 @@ export function Details() {
   const [data, setData] = useState({});
   const [id, setId] = useState(null);
 
+  function isValidJSON(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
 
   function loadData(id) {
     try {
       const data = JSON.parse(window.localStorage.getItem("data") || "[]");
       const filteredData = data?.find((item) => item.id === id);
       const ins = filteredData.data?.geminiInsights;
+      if(!isValidJSON(ins)){
+        setData(null);
+        return;
+        }
       const parsedData = JSON.parse(ins);
-      console.log(parsedData);
       setData(parsedData);
     } catch (error) {
       console.log(error);
